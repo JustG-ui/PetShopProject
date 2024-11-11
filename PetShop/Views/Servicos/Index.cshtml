@@ -1,0 +1,48 @@
+﻿@model IEnumerable<global::PetShop.Models.Servicos>
+
+@{
+    ViewData["Title"] = "Serviços";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Adicionar um Serviço</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tipo de Serviço
+            </th>
+            <th>
+                Preço
+            </th>
+            <th>
+                Data
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tipoServico)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.preco)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.data)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

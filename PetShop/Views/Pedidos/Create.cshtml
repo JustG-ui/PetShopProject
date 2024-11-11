@@ -1,0 +1,46 @@
+﻿@model global::PetShop.Models.Pedidos
+
+@{
+    ViewData["Title"] = "Criar Pedido";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>Pedido</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ServicoId" class="control-label">Serviço</label>
+                <select asp-for="ServicoId" class="form-control" asp-items="ViewBag.ServicoId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnimalId" class="control-label">Animal</label>
+                <select asp-for="AnimalId" class="form-control" asp-items="ViewBag.AnimalId"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmpregadoId" class="control-label">Empregado</label>
+                <select asp-for="EmpregadoId" class="form-control" asp-items="ViewBag.EmpregadoId"></select>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Criar Pedido" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar para a lista de pedidos</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

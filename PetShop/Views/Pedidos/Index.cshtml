@@ -1,0 +1,53 @@
+﻿@model IEnumerable<global::PetShop.Models.Pedidos>
+
+@{
+    ViewData["Title"] = "Pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Adicionar um Pedido</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Serviço</th>
+            <th>Animal</th>
+            <th>Empregado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Servicos?.tipoServico
+                </td>
+                <td>
+                    @item.Animais?.nomeAnimal
+                </td>
+                <td>
+                    @item.Empregados?.NomeEmpregado
+                </td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-servicoId="@item.ServicoId"
+                       asp-route-animalId="@item.AnimalId"
+                       asp-route-empregadoId="@item.EmpregadoId">Editar</a> |
+                    <a asp-action="Details"
+                       asp-route-servicoId="@item.ServicoId"
+                       asp-route-animalId="@item.AnimalId"
+                       asp-route-empregadoId="@item.EmpregadoId">Detalhes</a> |
+                    <a asp-action="Delete"
+                       asp-route-servicoId="@item.ServicoId"
+                       asp-route-animalId="@item.AnimalId"
+                       asp-route-empregadoId="@item.EmpregadoId">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
