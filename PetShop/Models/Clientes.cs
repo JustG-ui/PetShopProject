@@ -6,18 +6,19 @@ namespace PetShop.Models
     {
         public int Id { get; set; }
 
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "O nome deve conter apenas letters.")]
         public string Nome { get; set; }
 
-        [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF must be exactly 11 characters.")]
-        [RegularExpression(@"^\d{11}$", ErrorMessage = "CPF must contain only numbers.")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF deve conter exatamente 11 caracteres.")]
+        [RegularExpression(@"^\d{11}$", ErrorMessage = "O CPF deve conter apenas números.")]
         public string CPF { get; set; }
 
-        [StringLength(11, MinimumLength = 10, ErrorMessage = "Telefone must be between 10 and 11 characters.")]
-        [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Telefone must contain only numbers.")]
+        [StringLength(11, MinimumLength = 10, ErrorMessage = "O Telefone deve conter exatamente 10 and 11 characters.")]
+        [RegularExpression(@"^\d{10,11}$", ErrorMessage = "O telefone deve conter apenas números.")]
         public string Telefone { get; set; }
 
-        [StringLength(8, MinimumLength = 8, ErrorMessage = "CEP must be exactly 8 characters.")]
-        [RegularExpression(@"^\d{8}$", ErrorMessage = "CEP must contain only numbers.")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "O CEP deve conter apenas 8 caracteres.")]
+        [RegularExpression(@"^\d{8}$", ErrorMessage = "O CEP deve conter apenas números.")]
         public string CEP { get; set; }
 
         public List<Animais>? Animal { get; set; }
