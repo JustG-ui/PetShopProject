@@ -6,7 +6,6 @@ namespace PetShop.Models
     {
         public int Id { get; set; }
 
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "O nome deve conter apenas letters.")]
         public string Nome { get; set; }
 
         [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF deve conter exatamente 11 caracteres.")]
