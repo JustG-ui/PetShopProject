@@ -1,13 +1,13 @@
 ﻿@model global::PetShop.Models.Servicos
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Serviços";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Cadastrar</h1>
 
-<h4>Servicos</h4>
+<h4>Serviços</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,25 +18,29 @@
                 <input asp-for="tipoServico" class="form-control" />
                 <span asp-validation-for="tipoServico" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="preco" class="control-label">Preço</label>
                 <input asp-for="preco" class="form-control" />
                 <span asp-validation-for="preco" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="data" class="control-label">Data</label>
                 <input asp-for="data" type="date" class="form-control" />
                 <span asp-validation-for="data" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <br />
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="link-secondary text-decoration-none">Voltar</a>
 </div>
 
 @section Scripts {

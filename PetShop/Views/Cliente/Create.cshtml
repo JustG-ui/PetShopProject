@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Cadastrar</h1>
 
 <h4>Cliente</h4>
 <hr />
@@ -18,30 +18,35 @@
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="CPF" class="control-label">CPF</label>
                 <input asp-for="CPF" class="form-control" />
                 <span asp-validation-for="CPF" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="Telefone" class="control-label">Telefone</label>
                 <input asp-for="Telefone" class="form-control" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="CEP" class="control-label">CEP</label>
                 <input asp-for="CEP" class="form-control" />
                 <span asp-validation-for="CEP" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <br />
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="link-secondary text-decoration-none">Voltar</a>
 </div>
 
 @section Scripts {

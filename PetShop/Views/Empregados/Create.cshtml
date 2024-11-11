@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Cadastrar</h1>
 
 <h4>Empregados</h4>
 <hr />
@@ -18,25 +18,29 @@
                 <input asp-for="NomeEmpregado" class="form-control" />
                 <span asp-validation-for="NomeEmpregado" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="Funcao" class="control-label">Função</label>
                 <input asp-for="Funcao" class="form-control" />
                 <span asp-validation-for="Funcao" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="dataAdmissao" class="control-label">Data de Admissão</label>
                 <input asp-for="dataAdmissao" type="date" class="form-control" />
                 <span asp-validation-for="dataAdmissao" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <br />
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="link-secondary text-decoration-none">Voltar</a>
 </div>
 
 @section Scripts {

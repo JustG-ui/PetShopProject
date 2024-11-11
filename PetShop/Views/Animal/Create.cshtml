@@ -1,11 +1,11 @@
 ﻿@model global::PetShop.Models.Animais
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cadastrar Animal";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Cadastrar</h1>
 
 <h4>Animal</h4>
 <hr />
@@ -18,32 +18,38 @@
                 <input asp-for="tipo" class="form-control" />
                 <span asp-validation-for="tipo" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="raca" class="control-label">Raça</label>
                 <select asp-for="raca" class="form-control" asp-items="@(ViewData["BreedList"] as IEnumerable<SelectListItem>)"></select>
                 <span asp-validation-for="raca" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="nomeAnimal" class="control-label">Nome do Animal</label>
                 <input asp-for="nomeAnimal" class="form-control" />
                 <span asp-validation-for="nomeAnimal" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="Idade" class="control-label">Idade</label>
                 <input asp-for="Idade" class="form-control" />
                 <span asp-validation-for="Idade" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <label asp-for="ClientesId" class="control-label">Cliente</label>
                 <select asp-for="ClientesId" class="form-control" asp-items="ViewBag.ClientesId"></select>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <br />
         </form>
     <div>
-        <a asp-action="Index">Back to List</a>
-</div>
+            <a asp-action="Index" class="link-secondary text-decoration-none">Voltar</a>
+        </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

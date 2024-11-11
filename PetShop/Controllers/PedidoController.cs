@@ -23,12 +23,13 @@ namespace PetShop.Controllers
                 .Include(p => p.Animais)
                 .Include(p => p.Empregados);
             return View(await pedidos.ToListAsync());
+
         }
 
         // GET: Pedidos/Details/5
-        public async Task<IActionResult> Details(int? servicoId, int? animalId, int? empregadoId)
+        public async Task<IActionResult> Details(int? id)
         {
-            if (servicoId == null || animalId == null || empregadoId == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -37,7 +38,7 @@ namespace PetShop.Controllers
                 .Include(p => p.Servicos)
                 .Include(p => p.Animais)
                 .Include(p => p.Empregados)
-                .FirstOrDefaultAsync(m => m.ServicoId == servicoId && m.AnimalId == animalId && m.EmpregadoId == empregadoId);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (pedido == null)
             {
@@ -59,7 +60,7 @@ namespace PetShop.Controllers
         // POST: Pedidos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ServicoId, AnimalId, EmpregadoId, data")] Pedidos pedido)
+        public async Task<IActionResult> Create([Bind("ServicoId, AnimalId, EmpregadoId")] Pedidos pedido)
         {
             if (ModelState.IsValid)
             {
@@ -74,15 +75,14 @@ namespace PetShop.Controllers
         }
 
         // GET: Pedidos/Edit/5
-        public async Task<IActionResult> Edit(int? servicoId, int? animalId, int? empregadoId)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (servicoId == null || animalId == null || empregadoId == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var pedido = await _context.Pedidos
-                .FirstOrDefaultAsync(m => m.ServicoId == servicoId && m.AnimalId == animalId && m.EmpregadoId == empregadoId);
+            var pedido = await _context.Pedidos.FindAsync(id);
 
             if (pedido == null)
             {
@@ -97,9 +97,9 @@ namespace PetShop.Controllers
         // POST: Pedidos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int servicoId, int animalId, int empregadoId, [Bind("ServicoId, AnimalId, EmpregadoId, data")] Pedidos pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("ServicoId, AnimalId, EmpregadoId")] Pedidos pedido)
         {
-            if (servicoId != pedido.ServicoId || animalId != pedido.AnimalId || empregadoId != pedido.EmpregadoId)
+            if (id != pedido.Id)
             {
                 return NotFound();
             }
@@ -113,7 +113,7 @@ namespace PetShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PedidoExists(pedido.ServicoId, pedido.AnimalId, pedido.EmpregadoId))
+                    if (!PedidoExists(pedido.Id))
                     {
                         return NotFound();
                     }
@@ -131,9 +131,9 @@ namespace PetShop.Controllers
         }
 
         // GET: Pedidos/Delete/5
-        public async Task<IActionResult> Delete(int? servicoId, int? animalId, int? empregadoId)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (servicoId == null || animalId == null || empregadoId == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -142,7 +142,7 @@ namespace PetShop.Controllers
                 .Include(p => p.Servicos)
                 .Include(p => p.Animais)
                 .Include(p => p.Empregados)
-                .FirstOrDefaultAsync(m => m.ServicoId == servicoId && m.AnimalId == animalId && m.EmpregadoId == empregadoId);
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (pedido == null)
             {
@@ -155,10 +155,9 @@ namespace PetShop.Controllers
         // POST: Pedidos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int servicoId, int animalId, int empregadoId)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pedido = await _context.Pedidos
-                .FirstOrDefaultAsync(m => m.ServicoId == servicoId && m.AnimalId == animalId && m.EmpregadoId == empregadoId);
+            var pedido = await _context.Pedidos.FindAsync(id);
 
             if (pedido != null)
             {
@@ -169,9 +168,9 @@ namespace PetShop.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PedidoExists(int servicoId, int animalId, int empregadoId)
+        private bool PedidoExists(int id)
         {
-            return _context.Pedidos.Any(e => e.ServicoId == servicoId && e.AnimalId == animalId && e.EmpregadoId == empregadoId);
+            return _context.Pedidos.Any(e => e.Id == id);
         }
     }
 }
