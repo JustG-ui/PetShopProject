@@ -128,6 +128,12 @@ namespace PetShop.Controllers
             return View(pedido);
         }
 
+        private bool PedidoExists(int id)
+        {
+            return _context.Pedidos.Any(e => e.Id == id);
+        }
+
+
         // GET: Pedidos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -154,19 +160,19 @@ namespace PetShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pedido = await _context.Pedidos.FindAsync(id);
+            var pedido = await _context.Pedidos
+                .Include(p => p.Animal)
+                .Include(p => p.Servico)
+                .Include(p => p.Empregado)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (pedido != null)
             {
                 _context.Pedidos.Remove(pedido);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PedidoExists(int id)
-        {
-            return _context.Pedidos.Any(e => e.Id == id);
         }
     }
 }
