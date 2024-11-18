@@ -7,7 +7,7 @@ namespace PetShop.Data
     {
         public PetShopContext(DbContextOptions<PetShopContext> options) : base(options) { }
 
-    
+
         public DbSet<Clientes> Clientes { get; set; }
         public DbSet<Empregados> Empregados { get; set; }
         public DbSet<Servicos> Servicos { get; set; }
@@ -24,6 +24,14 @@ namespace PetShop.Data
         {
             modelBuilder.Entity<Pedidos>()
             .HasKey(vl => new { vl.ServicoId, vl.AnimalId, vl.EmpregadoId });
+
+            modelBuilder.Entity<Clientes>()
+            .HasIndex(c => c.CPF)
+            .IsUnique();
+
+            modelBuilder.Entity<Servicos>()
+                .Property(s => s.tipoServico)
+                .HasConversion<string>();
         }
     }
 }

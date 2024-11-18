@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PetShop.Data;
 using PetShop.Models;
-using System.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace PetShop.Controllers
 {
@@ -52,6 +58,11 @@ namespace PetShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,NomeEmpregado,Funcao,dataAdmissao")] Empregados empregados)
         {
+            if (empregados.dataAdmissao > DateOnly.FromDateTime(DateTime.Now))
+            {
+                ModelState.AddModelError("dataAdmissao", "Data de admissão não pode ser no futuro.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(empregados);
@@ -87,8 +98,11 @@ namespace PetShop.Controllers
             if (id != empregados.Id)
             {
                 return NotFound();
+            }
 
-
+            if (empregados.dataAdmissao > DateOnly.FromDateTime(DateTime.Now))
+            {
+                ModelState.AddModelError("dataAdmissao", "Data de admissão não pode ser no futuro.");
             }
 
             if (ModelState.IsValid)

@@ -69,8 +69,8 @@ namespace PetShop.Controllers
         // GET: Animal
         public async Task<IActionResult> Index()
         {
-            var petshopContext = _context.Animais.Include(m => m.Clientes);
-            return View(await _context.Animais.ToListAsync());
+            var petShopContext = _context.Animais.Include(a => a.Clientes);
+            return View(await petShopContext.ToListAsync());
         }
 
         // GET: Animal/Details/5
@@ -104,7 +104,7 @@ namespace PetShop.Controllers
         // POST: Animal/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,tipo,raca,nomeAnimal,Idade,ClientesId")] Animais animal)
+        public async Task<IActionResult> Create([Bind("Id,raca,nomeAnimal,Idade,ClientesId")] Animais animal)
         {
             if (ModelState.IsValid)
             {
@@ -139,7 +139,7 @@ namespace PetShop.Controllers
         // POST: Animal/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,tipo,raca,nomeAnimal,Idade,ClientesId")] Animais animal)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,raca,nomeAnimal,Idade,ClientesId")] Animais animal)
         {
             if (id != animal.Id)
             {

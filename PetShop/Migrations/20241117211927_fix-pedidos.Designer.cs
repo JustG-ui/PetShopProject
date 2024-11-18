@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetShop.Data;
 
@@ -11,9 +12,11 @@ using PetShop.Data;
 namespace PetShop.Migrations
 {
     [DbContext(typeof(PetShopContext))]
-    partial class PetShopContextModelSnapshot : ModelSnapshot
+    [Migration("20241117211927_fix-pedidos")]
+    partial class fixpedidos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +75,7 @@ namespace PetShop.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
@@ -121,14 +123,25 @@ namespace PetShop.Migrations
                     b.Property<int>("EmpregadoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("AnimaisId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmpregadosId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServicosId")
                         .HasColumnType("int");
 
                     b.HasKey("ServicoId", "AnimalId", "EmpregadoId");
 
-                    b.HasIndex("AnimalId");
+                    b.HasIndex("AnimaisId");
 
-                    b.HasIndex("EmpregadoId");
+                    b.HasIndex("EmpregadosId");
+
+                    b.HasIndex("ServicosId");
 
                     b.ToTable("Pedidos");
                 });
@@ -169,29 +182,29 @@ namespace PetShop.Migrations
 
             modelBuilder.Entity("PetShop.Models.Pedidos", b =>
                 {
-                    b.HasOne("PetShop.Models.Animais", "Animal")
+                    b.HasOne("PetShop.Models.Animais", "Animais")
                         .WithMany("Pedidos")
-                        .HasForeignKey("AnimalId")
+                        .HasForeignKey("AnimaisId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PetShop.Models.Empregados", "Empregado")
+                    b.HasOne("PetShop.Models.Empregados", "Empregados")
                         .WithMany("Pedidos")
-                        .HasForeignKey("EmpregadoId")
+                        .HasForeignKey("EmpregadosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PetShop.Models.Servicos", "Servico")
+                    b.HasOne("PetShop.Models.Servicos", "Servicos")
                         .WithMany("Pedidos")
-                        .HasForeignKey("ServicoId")
+                        .HasForeignKey("ServicosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Animal");
+                    b.Navigation("Animais");
 
-                    b.Navigation("Empregado");
+                    b.Navigation("Empregados");
 
-                    b.Navigation("Servico");
+                    b.Navigation("Servicos");
                 });
 
             modelBuilder.Entity("PetShop.Models.Animais", b =>

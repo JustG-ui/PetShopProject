@@ -7,9 +7,6 @@ namespace PetShop.Models
     {
         public int Id { get; set; }
 
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "O tipo deve conter apenas letras.")]
-        public string? tipo { get; set; }
-
         public string? raca { get; set; }
 
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "O nome deve conter apenas letras.")]

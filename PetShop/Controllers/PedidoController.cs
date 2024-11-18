@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PetShop.Data;
 using PetShop.Models;
+using System.Threading.Tasks;
 
 namespace PetShop.Controllers
 {
@@ -19,11 +20,10 @@ namespace PetShop.Controllers
         public async Task<IActionResult> Index()
         {
             var pedidos = _context.Pedidos
-                .Include(p => p.Servicos)
-                .Include(p => p.Animais)
-                .Include(p => p.Empregados);
+                .Include(p => p.Servico)
+                .Include(p => p.Animal)
+                .Include(p => p.Empregado);
             return View(await pedidos.ToListAsync());
-
         }
 
         // GET: Pedidos/Details/5
@@ -35,11 +35,10 @@ namespace PetShop.Controllers
             }
 
             var pedido = await _context.Pedidos
-                .Include(p => p.Servicos)
-                .Include(p => p.Animais)
-                .Include(p => p.Empregados)
+                .Include(p => p.Servico)
+                .Include(p => p.Animal)
+                .Include(p => p.Empregado)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
             if (pedido == null)
             {
                 return NotFound();
@@ -60,7 +59,7 @@ namespace PetShop.Controllers
         // POST: Pedidos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ServicoId, AnimalId, EmpregadoId")] Pedidos pedido)
+        public async Task<IActionResult> Create([Bind("Id,ServicoId,AnimalId,EmpregadoId")] Pedidos pedido)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +82,6 @@ namespace PetShop.Controllers
             }
 
             var pedido = await _context.Pedidos.FindAsync(id);
-
             if (pedido == null)
             {
                 return NotFound();
@@ -97,7 +95,7 @@ namespace PetShop.Controllers
         // POST: Pedidos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ServicoId, AnimalId, EmpregadoId")] Pedidos pedido)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ServicoId,AnimalId,EmpregadoId")] Pedidos pedido)
         {
             if (id != pedido.Id)
             {
@@ -139,11 +137,10 @@ namespace PetShop.Controllers
             }
 
             var pedido = await _context.Pedidos
-                .Include(p => p.Servicos)
-                .Include(p => p.Animais)
-                .Include(p => p.Empregados)
+                .Include(p => p.Servico)
+                .Include(p => p.Animal)
+                .Include(p => p.Empregado)
                 .FirstOrDefaultAsync(m => m.Id == id);
-
             if (pedido == null)
             {
                 return NotFound();
@@ -158,7 +155,6 @@ namespace PetShop.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pedido = await _context.Pedidos.FindAsync(id);
-
             if (pedido != null)
             {
                 _context.Pedidos.Remove(pedido);

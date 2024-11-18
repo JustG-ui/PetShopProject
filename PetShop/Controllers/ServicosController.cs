@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using PetShop.Data;
 using PetShop.Models;
 
-
 namespace PetShop.Controllers
 {
     public class ServicosController : Controller
@@ -28,17 +27,32 @@ namespace PetShop.Controllers
         }
 
         // GET: Servicos/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var servico = await _context.Servicos
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (servico == null)
+            {
+                return NotFound();
+            }
+
+            return View(servico);
+        }
 
 
         // GET: Servicos/Create
         public IActionResult Create()
         {
+            ViewData["TipoServicoOptions"] = new SelectList(Enum.GetValues(typeof(TipoServico)).Cast<TipoServico>());
             return View();
         }
 
         // POST: Servicos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,tipoServico,preco,data")] Servicos servicos)
@@ -49,6 +63,7 @@ namespace PetShop.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TipoServicoOptions"] = new SelectList(Enum.GetValues(typeof(TipoServico)).Cast<TipoServico>());
             return View(servicos);
         }
 
@@ -65,12 +80,11 @@ namespace PetShop.Controllers
             {
                 return NotFound();
             }
+            ViewData["TipoServicoOptions"] = new SelectList(Enum.GetValues(typeof(TipoServico)).Cast<TipoServico>());
             return View(servicos);
         }
 
         // POST: Servicos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,tipoServico,preco,data")] Servicos servicos)
@@ -78,8 +92,6 @@ namespace PetShop.Controllers
             if (id != servicos.Id)
             {
                 return NotFound();
-
-
             }
 
             if (ModelState.IsValid)
@@ -102,6 +114,7 @@ namespace PetShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["TipoServicoOptions"] = new SelectList(Enum.GetValues(typeof(TipoServico)).Cast<TipoServico>());
             return View(servicos);
         }
 

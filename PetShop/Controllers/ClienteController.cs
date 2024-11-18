@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PetShop.Data;
 using PetShop.Models;
-
 
 namespace PetShop.Controllers
 {
@@ -35,8 +33,7 @@ namespace PetShop.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes.Include(m => m.Animal)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
                 return NotFound();
@@ -52,14 +49,19 @@ namespace PetShop.Controllers
         }
 
         // POST: Cliente/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,CPF,Telefone,CEP")] Clientes cliente)
         {
             if (ModelState.IsValid)
             {
+                // Custom CPF uniqueness validation
+                if (_context.Clientes.Any(c => c.CPF == cliente.CPF))
+                {
+                    ModelState.AddModelError("CPF", "CPF deve ser único");
+                    return View(cliente);
+                }
+
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,8 +86,6 @@ namespace PetShop.Controllers
         }
 
         // POST: Cliente/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,CPF,Telefone,CEP")] Clientes cliente)
@@ -93,12 +93,17 @@ namespace PetShop.Controllers
             if (id != cliente.Id)
             {
                 return NotFound();
-
-
             }
 
             if (ModelState.IsValid)
             {
+                // Custom CPF uniqueness validation for Edit
+                if (_context.Clientes.Any(c => c.CPF == cliente.CPF && c.Id != cliente.Id))
+                {
+                    ModelState.AddModelError("CPF", "CPF deve ser único");
+                    return View(cliente);
+                }
+
                 try
                 {
                     _context.Update(cliente);
@@ -128,8 +133,7 @@ namespace PetShop.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Clientes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
                 return NotFound();
